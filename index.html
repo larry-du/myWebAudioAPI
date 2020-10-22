@@ -12,14 +12,32 @@
 
 <body>
     <div class="sound-box"></div>
-    <label for="volume">Volume : 0</label>
-    <input type="range"
-        id="volume"
-        name="volume"
-        class="volume"
-        value="0"
-        min="0"
-        max="5">
+    <div class="bar-area">
+        <div class="volume-wrap">
+            <label class="volume-text"
+                for="volume">Volume : 1</label>
+            <input type="range"
+                id="volume"
+                name="volume"
+                class="volume"
+                value="1"
+                step="0.5"
+                min="1"
+                max="5">
+        </div>
+        <div class="time-wrap">
+            <label class="time-text"
+                for="time">Play Time : 0.5</label>
+            <input type="range"
+                id="time"
+                name="time"
+                class="time"
+                value="0.5"
+                step="0.5"
+                min="0.5"
+                max="10">
+        </div>
+    </div>
     <script type="module"
         src="index.js"></script>
 </body>

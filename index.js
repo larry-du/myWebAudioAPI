@@ -1,7 +1,10 @@
 const soundBox = document.querySelector('.sound-box');
 const volumeBar = document.querySelector('.volume');
-const volumeText = document.querySelector('label')
+const volumeText = document.querySelector('.volume-text')
+const timeBar = document.querySelector('.time');
+const timeText = document.querySelector('.time-text')
 let volume = 0;
+let playTime = 0.5;
 const frequency = [
     { id: "do", freq: 261.6 },
     { id: "re", freq: 293.7 },
@@ -43,7 +46,7 @@ function synthesizer(freq) {
     gainNode.gain.value = volume; // 音量
 
     oscillator.start();
-    oscillator.stop(0.5);
+    oscillator.stop(playTime);
 
     gainNode.connect(AudioContext.destination);
     oscillator.connect(AudioContext.destination);
@@ -57,4 +60,8 @@ frequency.forEach(sound => {
 volumeBar.addEventListener('change', (e) => {
     volume = e.target.value
     volumeText.innerText = `Volume : ${volume}`
+})
+timeBar.addEventListener('change', (e) => {
+    playTime = e.target.value
+    timeText.innerText = `Play Time : ${playTime}`
 })
