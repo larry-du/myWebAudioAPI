@@ -1,0 +1,33 @@
+body {
+    background-color: black;
+    text-align: center;
+}
+
+.sound-box {
+    width: 90%;
+    height: 600px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sound {
+    font-size: 20px;
+    flex: 0 0 25%;
+    margin-left: 25px;
+    padding: 15px 30px;
+    border-radius: 10px;
+    background-color: lightblue;
+    /* box-shadow: 0 0 15px 10px skyblue inset; */
+    outline: none;
+}
+
+.sound:hover {
+    background-color: lightgreen;
+    /* box-shadow: 0 0 15px 10px lightgreen inset; */
+}
+
+label {
+    color: aliceblue;
+}
