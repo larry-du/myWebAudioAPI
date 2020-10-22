@@ -3,8 +3,11 @@ const volumeBar = document.querySelector('.volume');
 const volumeText = document.querySelector('.volume-text')
 const timeBar = document.querySelector('.time');
 const timeText = document.querySelector('.time-text')
+const detuneBar = document.querySelector('.detune');
+const detuneText = document.querySelector('.detune-text')
 let volume = 0;
 let playTime = 0.5;
+let detune = 2;
 const frequency = [
     { id: "do", freq: 261.6 },
     { id: "re", freq: 293.7 },
@@ -33,7 +36,7 @@ function play(event) {
 }
 
 function synthesizer(freq) {
-    const multiple = 2;
+
     const AudioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     const oscillator = AudioContext.createOscillator();//振盪器
@@ -42,7 +45,7 @@ function synthesizer(freq) {
 
     oscillator.type = 'sine'; // 正弦波
     oscillator.frequency.value = freq;
-    oscillator.detune.value = freq / multiple;// 解諧
+    oscillator.detune.value = freq / detune;// 解諧
     gainNode.gain.value = volume; // 音量
 
     oscillator.start();
@@ -64,4 +67,8 @@ volumeBar.addEventListener('change', (e) => {
 timeBar.addEventListener('change', (e) => {
     playTime = e.target.value
     timeText.innerText = `Play Time : ${playTime}`
+})
+detuneBar.addEventListener('change', (e) => {
+    detune = e.target.value
+    detuneText.innerText = `detune : ${detune}`
 })
