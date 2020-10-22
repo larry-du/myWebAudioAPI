@@ -1,10 +1,10 @@
 const soundBox = document.querySelector('.sound-box');
 const volumeBar = document.querySelector('.volume');
-const volumeText = document.querySelector('.volume-text')
+const volumeText = document.querySelector('.volume-text');
 const timeBar = document.querySelector('.time');
-const timeText = document.querySelector('.time-text')
+const timeText = document.querySelector('.time-text');
 const detuneBar = document.querySelector('.detune');
-const detuneText = document.querySelector('.detune-text')
+const detuneText = document.querySelector('.detune-text');
 let volume = 0;
 let playTime = 0.5;
 let detune = 2;
@@ -20,7 +20,7 @@ const frequency = [
 ];
 
 (function render() {
-    soundBox.innerHTML = frequency.map(scale => createButton(scale)).join('')
+    soundBox.innerHTML = frequency.map(scale => createButton(scale)).join('');
 })();
 
 function createButton(scale) {
@@ -56,19 +56,21 @@ function synthesizer(freq) {
 }
 
 frequency.forEach(sound => {
-    const button = document.querySelector(`#${sound.id}`)
-    button.addEventListener('click', (event) => play(event))
+    const button = document.querySelector(`#${sound.id}`);
+    button.addEventListener('click', (event) => play(event));
 })
 
 volumeBar.addEventListener('change', (e) => {
-    volume = e.target.value
-    volumeText.innerText = `Volume : ${volume}`
+    volume = e.target.value;
+    volumeText.innerText = `Volume : ${volume}`;
 })
+
 timeBar.addEventListener('change', (e) => {
-    playTime = e.target.value
-    timeText.innerText = `Play Time : ${playTime}`
+    playTime = e.target.value;
+    timeText.innerText = `Play Time : ${playTime}`;
 })
+
 detuneBar.addEventListener('change', (e) => {
-    detune = e.target.value
-    detuneText.innerText = `detune : ${detune}`
+    detune = e.target.value;
+    detuneText.innerText = `detune : ${detune}`;
 })
