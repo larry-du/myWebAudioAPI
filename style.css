@@ -19,13 +19,17 @@ body {
     padding: 15px 30px;
     border-radius: 10px;
     background-color: lightblue;
-    /* box-shadow: 0 0 15px 10px skyblue inset; */
     outline: none;
 }
 
 .sound:hover {
     background-color: lightgreen;
-    /* box-shadow: 0 0 15px 10px lightgreen inset; */
+}
+
+input[type="range"] {
+    width: 100px;
+    outline: none;
+    transition: 1s;
 }
 
 label {
