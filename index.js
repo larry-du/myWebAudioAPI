@@ -5,9 +5,9 @@ const timeBar = document.querySelector('.time');
 const timeText = document.querySelector('.time-text');
 const detuneBar = document.querySelector('.detune');
 const detuneText = document.querySelector('.detune-text');
-let volume = 0;
-let playTime = 0.5;
-let detune = 2;
+let tuneVolume = volume();
+let tunePlayTime = playTime();
+let tuneDetune = detune();
 const frequency = [
     { id: "do", freq: 261.6 },
     { id: "re", freq: 293.7 },
@@ -30,13 +30,48 @@ function createButton(scale) {
     `
 };
 
-function play(event) {
+function playSound(event) {
     const index = frequency.findIndex(data => data.id === event.target.id);
     synthesizer(frequency[index].freq);
 }
 
-function synthesizer(freq) {
+function volume() {
+    let volume = 0;
+    return {
+        setter(data) {
+            volume = data;
+        },
+        getter() {
+            return volume
+        }
+    }
+}
 
+function playTime() {
+    let playTime = 0.5;
+    return {
+        setter(data) {
+            playTime = data;
+        },
+        getter() {
+            return playTime
+        }
+    }
+}
+
+function detune() {
+    let detune = 2;
+    return {
+        setter(data) {
+            detune = data;  
+        },
+        getter() {
+            return detune
+        }
+    }
+}
+
+function synthesizer(freq) {
     const AudioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     const oscillator = AudioContext.createOscillator();//振盪器
@@ -45,11 +80,11 @@ function synthesizer(freq) {
 
     oscillator.type = 'sine'; // 正弦波
     oscillator.frequency.value = freq;
-    oscillator.detune.value = freq / detune;// 解諧
-    gainNode.gain.value = volume; // 音量
+    oscillator.detune.value = freq / tuneDetune.getter();// 解諧
+    gainNode.gain.value = tuneVolume.getter(); // 音量
 
     oscillator.start();
-    oscillator.stop(playTime);
+    oscillator.stop(tunePlayTime.getter());
 
     gainNode.connect(AudioContext.destination);
     oscillator.connect(AudioContext.destination);
@@ -57,20 +92,20 @@ function synthesizer(freq) {
 
 frequency.forEach(sound => {
     const button = document.querySelector(`#${sound.id}`);
-    button.addEventListener('click', (event) => play(event));
+    button.addEventListener('click', (event) => playSound(event));
 })
 
 volumeBar.addEventListener('change', (e) => {
-    volume = e.target.value;
-    volumeText.innerText = `Volume : ${volume}`;
+    tuneVolume.setter(e.target.value);
+    volumeText.innerText = `Volume : ${tuneVolume.getter()}`;
 })
 
 timeBar.addEventListener('change', (e) => {
-    playTime = e.target.value;
-    timeText.innerText = `Play Time : ${playTime}`;
+    tunePlayTime.setter(e.target.value)
+    timeText.innerText = `Play Time : ${tunePlayTime.getter()}`;
 })
 
 detuneBar.addEventListener('change', (e) => {
-    detune = e.target.value;
-    detuneText.innerText = `detune : ${detune}`;
+    tuneDetune.setter(e.target.value)
+    detuneText.innerText = `detune : ${tuneDetune.getter()}`;
 })
