@@ -5,9 +5,9 @@ const timeBar = document.querySelector('.time');
 const timeText = document.querySelector('.time-text');
 const detuneBar = document.querySelector('.detune');
 const detuneText = document.querySelector('.detune-text');
-let tuneVolume = volume();
-let tunePlayTime = playTime();
-let tuneDetune = detune();
+let volumeControl = tuneVolume();
+let durationTimeControl = setDurationTime();
+let detuneControl = detune();
 const frequency = [
     { id: "do", freq: 261.6 },
     { id: "re", freq: 293.7 },
@@ -35,25 +35,25 @@ function playSound(event) {
     synthesizer(frequency[index].freq);
 }
 
-function volume() {
+function tuneVolume() {
     let volume = 0;
     return {
-        setter(data) {
+        tune(data) {
             volume = data;
         },
-        getter() {
+        getValue() {
             return volume
         }
     }
 }
 
-function playTime() {
+function setDurationTime() {
     let playTime = 0.5;
     return {
-        setter(data) {
+        tune(data) {
             playTime = data;
         },
-        getter() {
+        getValue() {
             return playTime
         }
     }
@@ -62,10 +62,10 @@ function playTime() {
 function detune() {
     let detune = 2;
     return {
-        setter(data) {
-            detune = data;  
+        tune(data) {
+            detune = data;
         },
-        getter() {
+        getValue() {
             return detune
         }
     }
@@ -80,11 +80,11 @@ function synthesizer(freq) {
 
     oscillator.type = 'sine'; // 正弦波
     oscillator.frequency.value = freq;
-    oscillator.detune.value = freq / tuneDetune.getter();// 解諧
-    gainNode.gain.value = tuneVolume.getter(); // 音量
+    oscillator.detune.value = freq / detuneControl.getValue();// 解諧
+    gainNode.gain.value = volumeControl.getValue(); // 音量
 
     oscillator.start();
-    oscillator.stop(tunePlayTime.getter());
+    oscillator.stop(durationTimeControl.getValue());
 
     gainNode.connect(AudioContext.destination);
     oscillator.connect(AudioContext.destination);
@@ -95,17 +95,17 @@ frequency.forEach(sound => {
     button.addEventListener('click', (event) => playSound(event));
 })
 
-volumeBar.addEventListener('change', (e) => {
-    tuneVolume.setter(e.target.value);
-    volumeText.innerText = `Volume : ${tuneVolume.getter()}`;
+volumeBar.addEventListener('change', (event) => {
+    volumeControl.tune(event.target.value);
+    volumeText.innerText = `Volume : ${volumeControl.getValue()}`;
 })
 
-timeBar.addEventListener('change', (e) => {
-    tunePlayTime.setter(e.target.value)
-    timeText.innerText = `Play Time : ${tunePlayTime.getter()}`;
+timeBar.addEventListener('change', (event) => {
+    durationTimeControl.tune(event.target.value)
+    timeText.innerText = `Play Time : ${durationTimeControl.getValue()}`;
 })
 
-detuneBar.addEventListener('change', (e) => {
-    tuneDetune.setter(e.target.value)
-    detuneText.innerText = `detune : ${tuneDetune.getter()}`;
+detuneBar.addEventListener('change', (event) => {
+    detuneControl.tune(event.target.value)
+    detuneText.innerText = `detune : ${detuneControl.getValue()}`;
 })
