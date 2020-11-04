@@ -16,7 +16,7 @@ const frequency = [
     { id: "so", freq: 392 },
     { id: "la", freq: 440 },
     { id: "si", freq: 493.9 },
-    { id: "hi-do", freq: 523.3 }
+    { id: "hi-do", freq: 523.2 }
 ];
 
 (function render() {
@@ -60,7 +60,7 @@ function setDurationTime() {
 }
 
 function detune() {
-    let detune = 2;
+    let detune = 0;
     return {
         tune(data) {
             detune = data;
@@ -80,7 +80,7 @@ function synthesizer(freq) {
 
     oscillator.type = 'sine'; // 正弦波
     oscillator.frequency.value = freq;
-    oscillator.detune.value = freq / detuneControl.getValue();// 解諧
+    oscillator.detune.value = freq * detuneControl.getValue();// 解諧
     gainNode.gain.value = volumeControl.getValue(); // 音量
 
     oscillator.start();
